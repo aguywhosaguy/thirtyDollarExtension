@@ -1,6 +1,8 @@
 export default defineContentScript({
-  matches: ['*://*.google.com/*'],
-  main() {
-    console.log('Hello content.');
+  matches: ['*://*.thirtydollar.website/*'],
+  async main() {
+    const button = await (await fetch(browser.runtime.getURL('/button.html'))).text();
+    const div = document.getElementById('main')?.children[9]
+    div?.insertAdjacentHTML('afterbegin', button)
   },
 });

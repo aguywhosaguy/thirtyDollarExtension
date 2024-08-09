@@ -1,0 +1,18 @@
+<div class="popup" id="soundMenu" style="display: none">
+    <div class="addSound">
+        <h1>Settings</h1>
+        <p id="settingHelp" style="height: 36px; opacity: 0.5;" mobile="(tap on a setting for information)">(hover over a setting for information)</p>
+        <p id="settingInfo" style="height: 36px; padding: 0px 30px; display: none;"></p>
+        <div class="settingList">
+            <div class="extraSetting nomobile" title="Enables placing actions using single-key shortcuts"><input class="settingBox" inverted="true" type="checkbox" setting="noActionShortcuts"><p>Action shortcuts</p></div>
+            <div class="extraSetting" title="Disables most animations on the page (bouncing, pulsing, flashing, etc). Enable if playback is lagging"><input class="settingBox" type="checkbox" setting="noAnimations"><p>Disable Animations</p></div>
+            <div class="extraSetting" title="Automatically scrolls the screen during playback"><input class="settingBox" type="checkbox" setting="autoScroll"><p>Auto-scroll</p></div>
+            <div class="extraSetting" title="Pins the section buttons to the bottom of the screen"><input class="settingBox" type="checkbox" setting="pinSectionButtons"><p>Pin section controls</p></div>
+            <div class="extraSetting" title="Attemps to display a warning message when exiting the page without saving"><input class="settingBox" type="checkbox" setting="exitConfirmation"><p>Exit confirmation</p></div>
+            <div class="extraSetting requiresNewSaving" style="" title="Reverts to the older saving system where pressing save simply downloads the file"><input class="settingBox" type="checkbox" setting="oldSaving"><p>Old save system</p></div>
+        </div>
+        <div style="margin-top: 25px">
+            <button style="background: var(--emojiblue)" onclick="$('.popup').hide()">Done</button>
+        </div>
+    </div>
+</div>
