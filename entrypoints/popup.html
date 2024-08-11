@@ -1,18 +1,33 @@
 <div class="popup" id="soundMenu" style="display: none">
-    <div class="popupbox">
+    <form class="popupbox">
         <h1>Add Sound</h1>
         <p id="soundHelp" style="height: 36px; opacity: 0.5;">(hover over an input for information)</p>
         <p id="soundInfo" style="height: 36px; padding: 0px 30px; display: none;"></p>
         <div class="settingList">
-            <div class="extraSetting nomobile" title="Test"><input class="settingBox" inverted="true" type="checkbox" setting="noActionShortcuts"><p>Action shortcuts</p></div>
-            <div class="extraSetting" title="Disables most animations on the page (bouncing, pulsing, flashing, etc). Enable if playback is lagging"><input class="settingBox" type="checkbox" setting="noAnimations"><p>Disable Animations</p></div>
-            <div class="extraSetting" title="Automatically scrolls the screen during playback"><input class="settingBox" type="checkbox" setting="autoScroll"><p>Auto-scroll</p></div>
-            <div class="extraSetting" title="Pins the section buttons to the bottom of the screen"><input class="settingBox" type="checkbox" setting="pinSectionButtons"><p>Pin section controls</p></div>
-            <div class="extraSetting" title="Attemps to display a warning message when exiting the page without saving"><input class="settingBox" type="checkbox" setting="exitConfirmation"><p>Exit confirmation</p></div>
-            <div class="extraSetting requiresNewSaving" style="" title="Reverts to the older saving system where pressing save simply downloads the file"><input class="settingBox" type="checkbox" setting="oldSaving"><p>Old save system</p></div>
+            <div class="extraSetting" title="The name of the sound added.">
+                <p>Sound Name:</p>
+                <input class="settingBox" id="soundName" type="text">
+            </div>
+            <div class="extraSetting" title="The audio played when the icon is clicked.">
+                <p>Sound Audio:</p>
+                <input class="settingBox" type="file">
+            </div>
+            <div class="extraSetting" title="The icon used by the sound.">
+                <p>Sound Icon:</p>
+                <input class="settingBox" type="text">
+            </div>
+            <div class="extraSetting" title="The source of the audio. Optional.">
+                <p>Sound Source:</p>
+                <input class="settingBox" type="text">
+            </div>
+            <div class="extraSetting" title="The type of audio. Optional.">
+                <p>Sound Type:</p>
+                <select name="audioType" id="audioType"></select>
+            </div>
         </div>
         <div style="margin-top: 25px">
-            <button style="background: var(--emojiblue)" onclick="$('.popup').hide()">Done</button>
+            <button style="background: var(--emojiblue)" type="submit">Submit</button>
+            <button style="background: var(--emojired)" onclick="$('.popup').hide()">Close</button>
         </div>
-    </div>
+    </form>
 </div>
