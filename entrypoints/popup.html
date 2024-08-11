@@ -1,27 +1,35 @@
 <div class="popup" id="soundMenu" style="display: none">
-    <form class="popupbox">
+    <form id="fileForm" class="popupbox">
         <h1>Add Sound</h1>
         <p id="soundHelp" style="height: 36px; opacity: 0.5;">(an asterisk means the option is required)</p>
         <p id="soundInfo" style="height: 36px; padding: 0px 30px; display: none;"></p>
-        <div class="settingList">
-            <div title="The name of the sound added.">
-                <p>Sound Name*:</p>
+        <div>
+            <div title="The name of the sound added." style="margin-bottom: 30px;">
+                <p>Sound Name*</p>
                 <input class="settingBox" id="soundName" type="text">
             </div>
-            <div title="The audio played when the icon is clicked.">
-                <p>Sound Audio*:</p>
-                <input class="settingBox" type="file">
+            <div title="The audio played when the icon is clicked." style="margin-bottom: 30px;">
+                <p style="margin-bottom: 20px;">Sound Audio*</p>
+                <label for="audioInput">
+                    Upload Audio
+                </label>
+                <input id="audioInput" accept="audio/*" style="display: none;" type="file">
+                <p id="audioFileName" style="height: 36px; opacity: 0.5;">No File Selected</p>
             </div>
-            <div title="The icon used by the sound.">
-                <p>Sound Icon*:</p>
+            <div title="The icon used by the sound." style="margin-bottom: 30px;">
+                <p style="margin-bottom: 20px;">Sound Icon*</p>
+                <label for="iconInput">
+                    Upload Icon
+                </label>
+                <input id="iconInput" accept="image/*" style="display: none;" class="settingBox" type="file">
+                <p id="iconFileName" style="height: 36px; opacity: 0.5;">No File Selected</p>
+            </div>
+            <div title="The source of the audio. Optional." style="margin-bottom: 30px;">
+                <p>Sound Source</p>
                 <input class="settingBox" type="text">
             </div>
-            <div title="The source of the audio. Optional.">
-                <p>Sound Source:</p>
-                <input class="settingBox" type="text">
-            </div>
-            <div title="The type of audio. Optional.">
-                <p>Sound Type:</p>
+            <div title="The type of audio. Optional." style="margin-bottom: 30px;">
+                <p>Sound Type</p>
                 <select name="audioType" id="audioType">
                     <option value="tag_note">Note</option>
                     <option value="tag_precussion">Precussion</option>
