@@ -1,6 +1,9 @@
+import './inject.css'
+
 export default defineContentScript({
   matches: ['*://*.thirtydollar.website/*'],
   async main() {
+    // init
     const button = await (await fetch(browser.runtime.getURL('/button.html'))).text();
     const popup = await (await fetch(browser.runtime.getURL('/popup.html'))).text();
 
@@ -9,5 +12,7 @@ export default defineContentScript({
 
     buttonDiv?.insertAdjacentHTML('afterbegin', button)
     popupDiv?.insertAdjacentHTML('beforeend', popup)
+
+    // hook
   },
 });
