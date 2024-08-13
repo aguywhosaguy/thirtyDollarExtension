@@ -12,7 +12,9 @@
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "buildall": "wxt build && wxt build -b firefox",
+    "zipall": "wxt zip && wxt zip -b firefox"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
