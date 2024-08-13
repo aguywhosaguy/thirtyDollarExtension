@@ -8,6 +8,7 @@ export default defineConfig({
                 matches: ['*://*.thirtydollar.website/*'],
                 resources: ['*.html']
             }
-        ]
+        ],
+        name: "Thirty Dollar Extension"
     }
 });
