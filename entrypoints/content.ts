@@ -14,8 +14,6 @@ export default defineContentScript({
     matches: ['*://*.thirtydollar.website/*'],
     async main() {
     // init
-
-        const autoSave = true
         const button = await (await fetch(browser.runtime.getURL('/button.html'))).text();
         const popup = await (await fetch(browser.runtime.getURL('/menu.html'))).text();
 
