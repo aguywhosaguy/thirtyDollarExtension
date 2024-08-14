@@ -1,0 +1,27 @@
+name: Generate Releases
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Zip extensions
+        run: |
+          bun run zipall
+
+      - name: Upload releases
+        uses: actions/upload-artifact@v4
+        with:
+          name: releases
+          path: .output/*.zip
