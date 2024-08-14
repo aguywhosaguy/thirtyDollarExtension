@@ -1,13 +1,17 @@
-import './inject.css'
+import '~/assets/css/inject.css'
+
+import * as tools from '~/assets/tools.ts'
 
 export default defineContentScript({
     matches: ['*://*.thirtydollar.website/*'],
     async main() {
     // init
+        const autoSave = true
         const button = await (await fetch(browser.runtime.getURL('/button.html'))).text();
         const popup = await (await fetch(browser.runtime.getURL('/menu.html'))).text();
 
-        const buttonDiv = document.getElementById('main')?.children[9]
+    // compatability with thirty dollar rewrite
+        const buttonDiv = document.getElementById('main')?.children[document.getElementById('sideboxes') ? 9 : 10]
         const popupDiv = document.getElementById('everything')
 
         buttonDiv?.insertAdjacentHTML('afterbegin', button)
@@ -22,19 +26,11 @@ export default defineContentScript({
         const iconInput = document.getElementById('iconInput')
         const audioInput = document.getElementById('audioInput')
 
-        const listener = (e: Event) => {
-            const fileInput = e.target
-            if (fileInput.files && fileInput.files.length > 0) {
-            // Get the name of the selected file
-            const fileName = fileInput.files[0].name;
-            // Update the <p> tag with the selected file name
-            const fileNameDisplay = fileInput.nextElementSibling
-            fileNameDisplay.textContent = fileName;
-          } else {
-            // Reset the <p> tag if no file is selected
-            fileNameDisplay.textContent = 'No file selected';
-          }
-        }
+        const form = document.getElementById('fileForm') as HTMLFormElement
+        const submitButton = document.getElementById('subButton')
+
+        iconInput.addEventListener('change', tools.fileListener)
+        audioInput.addEventListener('change', tools.fileListener)
 
         const notify = async (msg: string, length: number, color: string) => {
             hoverText.style.opacity = 1
@@ -60,7 +56,7 @@ export default defineContentScript({
                     audioDiv.setAttribute('soundname', name)
                     audioDiv.setAttribute('soundorigin', source)
                     audioDiv.setAttribute(type, '')
-                    audioDiv.setAttribute('str', name) 
+                    audioDiv.setAttribute('str', tools.convertName(name))
                     audioDiv.setAttribute('sound', audioURL) 
                     const image = document.createElement('img')
                     image.src = imageURL
@@ -86,29 +82,21 @@ export default defineContentScript({
             fr.readAsDataURL(audio)
         }
 
-        iconInput.addEventListener('change', listener)
-        audioInput.addEventListener('change', listener)
-
-        const form = document.getElementById('fileForm') as HTMLFormElement
-        const submitButton = document.getElementById('subButton')
-
-        const validateForm = (data: FormData) => {
-            if (!data.get("soundName") || !data.get("iconInput") || !data.get("audioInput")) {
-                return false
-            }
-
-            return true
-        }
-
-        form.addEventListener('submit', async function(event: Event) {
+        form.addEventListener('submit', async (event: Event) => {
             event.preventDefault()
 
+            
             if (event.submitter.id != "subButton") {
                 return
             }
 
             const data = new FormData(event.target)
-            if (!validateForm(data)) {
+            if (document.querySelectorAll('[str="' + tools.convertName(data.get('soundName')) + '"]').length) {
+                notify("Sound name is taken!", 3, "#ff0000")
+                return
+            }
+
+            if (!tools.validateForm(data)) {
                 notify("Options with asterisks must be filled out!", 3, "#ff0000")
                 return
             }
