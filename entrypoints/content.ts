@@ -2,10 +2,19 @@ import '~/assets/css/inject.css'
 
 import * as tools from '~/assets/tools.ts'
 
+type Sound = {
+    name: string;
+    audio: string;
+    image: string;
+    source: string;
+    tag: "tag_percussion" | "tag_note";
+}
+
 export default defineContentScript({
     matches: ['*://*.thirtydollar.website/*'],
     async main() {
     // init
+
         const autoSave = true
         const button = await (await fetch(browser.runtime.getURL('/button.html'))).text();
         const popup = await (await fetch(browser.runtime.getURL('/menu.html'))).text();
@@ -43,7 +52,23 @@ export default defineContentScript({
             }, length*1000)
         }
 
-        const addSound = (name: string, audio: File, image: File, source: string, type: string) => {
+        const addSound = (sound: Sound) => {
+            const audioDiv = document.createElement('div')
+            audioDiv.className = "sound"
+            audioDiv.setAttribute('soundname', sound.name)
+            audioDiv.setAttribute('soundorigin', sound.source)
+            audioDiv.setAttribute(sound.tag, '')
+            audioDiv.setAttribute('str', tools.convertName(sound.name))
+            audioDiv.setAttribute('sound', sound.audio) 
+            const image = document.createElement('img')
+            image.src = sound.image
+            image.alt = sound.name
+            audioDiv.appendChild(image)
+            document.getElementById('icons').appendChild(audioDiv)
+            notify('Successfully added sound ' + sound.name + '!', 3, "#00ff00")
+        }
+
+        const convertSound = (name: string, audio: File, image: File, source: string, tag: string) => {
             const fr = new FileReader()
 
             fr.onload = function(event) {
@@ -51,20 +76,9 @@ export default defineContentScript({
 
                 fr.onload = function(event) {
                     const imageURL = fr.result as string
-                    const audioDiv = document.createElement('div')
-                    audioDiv.className = "sound"
-                    audioDiv.setAttribute('soundname', name)
-                    audioDiv.setAttribute('soundorigin', source)
-                    audioDiv.setAttribute(type, '')
-                    audioDiv.setAttribute('str', tools.convertName(name))
-                    audioDiv.setAttribute('sound', audioURL) 
-                    const image = document.createElement('img')
-                    image.src = imageURL
-                    image.alt = name
-                    audioDiv.appendChild(image)
-                    document.getElementById('icons').appendChild(audioDiv)
-                    notify('Successfully added sound ' + name + '!', 3, "#00ff00")
-               }
+                    const data: Sound = {name: name, audio: audioURL, image: imageURL, source: source, tag: tag}
+                    addSound(data)
+                }
 
                 fr.onerror = function(event) {
                     notify('Failed to load image file!', 5, "#ff0000")
@@ -101,7 +115,7 @@ export default defineContentScript({
                 return
             }
 
-            addSound(data.get("soundName"), data.get("audioInput"), data.get("iconInput"), data.get("soundSource"), data.get("audioType"))
+            convertSound(data.get("soundName"), data.get("audioInput"), data.get("iconInput"), data.get("soundSource"), data.get("audioType"))
         })
     }
 });
