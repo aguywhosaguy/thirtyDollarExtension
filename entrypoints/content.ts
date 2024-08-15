@@ -18,7 +18,7 @@ export default defineContentScript({
         const popup = await (await fetch(browser.runtime.getURL('/menu.html'))).text();
 
     // compatability with thirty dollar rewrite
-        const buttonDiv = document.getElementById('main')?.children[document.getElementById('sideboxes') ? 9 : 10]
+        const buttonDiv = document.getElementById('main')?.children[document.getElementById('sideboxes') ? 10 : 9]
         const popupDiv = document.getElementById('everything')
 
         buttonDiv?.insertAdjacentHTML('afterbegin', button)
